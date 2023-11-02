@@ -2,9 +2,9 @@
 # Event Listing: [StackUp]
 Long Description about project. This project do that. This project is awesome...
 ## Team members
-1. R Ashwin [https://github.com/ashwin417]
-2. Sanjay Mathew [https://github.com/M3BIONIX]
-3. Karthik Vijay [https://github.com/karthikvijay5227]
+1. [R Ashwin](https://github.com/ashwin417)
+2. [Sanjay Mathew](https://github.com/M3BIONIX)
+3. [Karthik Vijay](https://github.com/karthikvijay5227)
 ## Team Id
 ask
 ## Link to product walkthrough
