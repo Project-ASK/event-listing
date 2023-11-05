@@ -8,17 +8,17 @@ export default function Login() {
         <h1 style={{ fontSize: "3em" }}>Event<span style={{ color: "red" }}> Lister</span></h1>
       </div>
       <nav style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "65vh" }}>
-        <div style={{ backgroundColor: 'white', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "20%", padding: "1.5%", borderRadius: "15px", boxShadow: "0px 0px 10px rgba(0,0,0,0.1)" }}>
-          <h2 style={{ marginBottom: '45px' }}>Login</h2>
+        <div style={{ backgroundColor: 'white', display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "300px", padding: "1.5%", borderRadius: "1em", boxShadow: "0 0 1.5em rgba(0,0,0,0.1)" }}>
+          <h2 style={{ marginBottom: '8%' }}>Login</h2>
           <form>
-            <div style={{ marginBottom: '15px' }}>
+            <div style={{ marginBottom: '1em' }}>
               <input type="text" placeholder="Username" style={{ padding: '10px' }} />
             </div>
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '1.6em' }}>
               <input type="password" placeholder="Password" style={{ padding: '10px' }} />
             </div>
             <div>
-              <input type="submit" value="Log In" style={{ width: '60%', padding: '10px', marginLeft: "20%",borderRadius: "10px" }} />
+              <input type="submit" value="Log In" style={{ width: '60%', padding: '0.9em', marginLeft: "20%",borderRadius: "0.9em" }} />
             </div>
             <p>Not Registered? <Link href="./SignUp">Sign Up</Link></p>
           </form>
