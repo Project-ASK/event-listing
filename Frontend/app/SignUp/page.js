@@ -1,12 +1,14 @@
 'use client'
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import '../styles/global.css'
 
 export default function SignUp() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -17,9 +19,12 @@ export default function SignUp() {
         });
         const data = await response.json();
         if (response.ok) {
-            window.alert('Data successfully sent to backend!');
+            window.alert('Sign Up Success!');
+            router.push('/Home');
+        } else if (response.status === 401) {
+            window.alert('User already exists');
         } else {
-            window.alert('Failed to send data to backend.');
+            window.alert('Error in Registration!');
         }
         console.log(data);
     };
@@ -41,7 +46,7 @@ export default function SignUp() {
                         <div>
                             <input type="submit" value="Sign Up" style={{ width: '60%', padding: '0.9em', marginLeft: "20%", borderRadius: "0.9em" }} />
                         </div>
-                        <p>Already Registered? <Link href="/Login">Log In</Link></p>
+                        <p>Already Registered? <Link href="/Login" style={{ textDecoration: "none" }}>Log In</Link></p>
                     </form>
                 </div>
             </nav>

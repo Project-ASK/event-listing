@@ -37,7 +37,7 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await UserModel.findOne({ username, password });
     if (!user) {
-        res.status(401).json({ message: 'Invalid Credentials,Please SignUp first' });
+        res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
     } else {
         res.json({ message: 'Login Success' });
     }
@@ -47,9 +47,15 @@ app.post('/signup', async (req, res) => {
     // console.log(req.body);
     try {
         const userData = req.body;
-        const newUser = new UserModel(userData);
-        await newUser.save();
-        res.json('User added to MongoDB!');
+        const { username, password } = req.body;
+        const user = await UserModel.findOne({ username, password });
+        if(user){
+            res.status(401).json({ message: 'User already exists' });
+        }else{
+            const newUser = new UserModel(userData);
+            await newUser.save();
+            res.status(200).json('User added to MongoDB!');
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send('Error adding user to MongoDB');

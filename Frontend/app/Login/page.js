@@ -1,12 +1,14 @@
 'use client'
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import '../styles/global.css'
 
 export default function Login() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,9 +19,10 @@ export default function Login() {
     });
     const data = await response.json();
     if (response.ok) {
-      window.alert('Data successfully sent to backend!');
+      // window.alert('Login Success!');*/
+      router.push("/Home");
     } else {
-      window.alert('Failed to send data to backend.');
+      window.alert('Error in login!');
     }
     console.log(data);
   };
@@ -42,7 +45,7 @@ export default function Login() {
             <div>
               <input type="submit" value="Log In" style={{ width: '60%', padding: '0.9em', marginLeft: "20%", borderRadius: "0.9em" }} />
             </div>
-            <p>Not Registered? <Link href="./SignUp">Sign Up</Link></p>
+            <p>Not Registered? <Link href="./SignUp" style={{ textDecoration: "none" }}>Sign Up</Link></p>
           </form>
         </div>
       </nav>
