@@ -44,7 +44,7 @@ export default function SignUp() {
                             <input type="password" placeholder="Password" style={{ padding: '10px' }} value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
                         <div>
-                            <input type="submit" value="Sign Up" style={{ width: '60%', padding: '0.9em', marginLeft: "20%", borderRadius: "0.9em" }} />
+                            <input type="submit" value="Sign Up" style={{ width: '60%', padding: '0.9em', marginLeft: "20%", borderRadius: "0.9em",cursor:"pointer" }} />
                         </div>
                         <p>Already Registered? <Link href="/Login" style={{ textDecoration: "none" }}>Log In</Link></p>
                     </form>
