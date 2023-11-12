@@ -19,12 +19,11 @@ export default function Login() {
     });
     const data = await response.json();
     if (response.ok) {
-      // window.alert('Login Success!');*/
+      localStorage.setItem('username', data.name);
       router.push("/Home");
     } else {
       window.alert('Error in login!');
     }
-    console.log(data);
   };
 
   return (

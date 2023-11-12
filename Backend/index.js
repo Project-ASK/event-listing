@@ -25,25 +25,34 @@ db.once('open', () => {
 });
 
 const userSchema = new mongoose.Schema({
+    name: String,
     username: String,
     password: String,
 });
 
 const UserModel = mongoose.model('auth', userSchema);
 
+const router = express.Router();
+app.use('/', router);
 
-app.post('/login', async (req, res) => {
+router.route('/login')
+    .post(postLogin);
+
+router.route('/signup')
+    .post(postSign);
+
+async function postLogin(req, res){
     // console.log(req.body);
     const { username, password } = req.body;
     const user = await UserModel.findOne({ username, password });
     if (!user) {
         res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
     } else {
-        res.json({ message: 'Login Success' });
+        res.json({ message: 'Login Success' , name: user.name });
     }
-});
+};
 
-app.post('/signup', async (req, res) => {
+async function postSign(req, res){
     // console.log(req.body);
     try {
         const userData = req.body;
@@ -60,7 +69,7 @@ app.post('/signup', async (req, res) => {
         console.error(error);
         res.status(500).send('Error adding user to MongoDB');
     }
-});
+};
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}/login`);

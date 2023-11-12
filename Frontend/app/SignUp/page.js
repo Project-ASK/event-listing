@@ -6,6 +6,7 @@ import '../styles/global.css'
 
 export default function SignUp() {
 
+    const [name,setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
@@ -15,12 +16,13 @@ export default function SignUp() {
         const response = await fetch('http://localhost:3001/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ name, username, password })
         });
         const data = await response.json();
         if (response.ok) {
             window.alert('Sign Up Success!');
-            router.push('/Home');
+            localStorage.setItem('username',data.name);
+            router.push('/Login');
         } else if (response.status === 401) {
             window.alert('User already exists');
         } else {
@@ -38,7 +40,10 @@ export default function SignUp() {
                     <h2 style={{ marginBottom: '8%' }}>Sign Up</h2>
                     <form onSubmit={handleSubmit}>
                         <div style={{ marginBottom: '1em' }}>
-                            <input type="text" placeholder="Username" style={{ padding: '10px' }} value={username} onChange={(e) => setUsername(e.target.value)} autoFocus />
+                            <input type="text" placeholder="Enter your name" style={{ padding: '10px' }} value={name} onChange={(e) => setName(e.target.value)} autoFocus />
+                        </div>
+                        <div style={{ marginBottom: '1em' }}>
+                            <input type="text" placeholder="Username" style={{ padding: '10px' }} value={username} onChange={(e) => setUsername(e.target.value)} />
                         </div>
                         <div style={{ marginBottom: '1.6em' }}>
                             <input type="password" placeholder="Password" style={{ padding: '10px' }} value={password} onChange={(e) => setPassword(e.target.value)} />
