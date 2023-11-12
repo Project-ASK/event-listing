@@ -6,7 +6,7 @@ import '../styles/global.css'
 
 export default function SignUp() {
 
-    const [name,setName] = useState('');
+    const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
@@ -21,14 +21,14 @@ export default function SignUp() {
         const data = await response.json();
         if (response.ok) {
             window.alert('Sign Up Success!');
-            localStorage.setItem('username',data.name);
+            localStorage.setItem('username', data.name);
+            localStorage.setItem('user', data.username);
             router.push('/Login');
         } else if (response.status === 401) {
             window.alert('User already exists');
         } else {
             window.alert('Error in Registration!');
         }
-        console.log(data);
     };
     return (
         <>
@@ -49,7 +49,7 @@ export default function SignUp() {
                             <input type="password" placeholder="Password" style={{ padding: '10px' }} value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
                         <div>
-                            <input type="submit" value="Sign Up" style={{ width: '60%', padding: '0.9em', marginLeft: "20%", borderRadius: "0.9em",cursor:"pointer" }} />
+                            <input type="submit" value="Sign Up" style={{ width: '60%', padding: '0.9em', marginLeft: "20%", borderRadius: "0.9em", cursor: "pointer" }} />
                         </div>
                         <p>Already Registered? <Link href="/Login" style={{ textDecoration: "none" }}>Log In</Link></p>
                     </form>

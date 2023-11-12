@@ -41,26 +41,24 @@ router.route('/login')
 router.route('/signup')
     .post(postSign);
 
-async function postLogin(req, res){
-    // console.log(req.body);
+async function postLogin(req, res) {
     const { username, password } = req.body;
     const user = await UserModel.findOne({ username, password });
     if (!user) {
         res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
     } else {
-        res.json({ message: 'Login Success' , name: user.name });
+        res.json({ message: 'Login Success', name: user.name, username: user.username });
     }
 };
 
-async function postSign(req, res){
-    // console.log(req.body);
+async function postSign(req, res) {
     try {
         const userData = req.body;
         const { username, password } = req.body;
         const user = await UserModel.findOne({ username, password });
-        if(user){
+        if (user) {
             res.status(401).json({ message: 'User already exists' });
-        }else{
+        } else {
             const newUser = new UserModel(userData);
             await newUser.save();
             res.status(200).json('User added to MongoDB!');
@@ -71,6 +69,48 @@ async function postSign(req, res){
     }
 };
 
+const eventSchema = new mongoose.Schema({
+    username: String,
+    eventname: String,
+    description: String,
+    date: Date
+});
+
+const EventModel = mongoose.model('event', eventSchema);
+
+router.route('/createevent')
+    .post(postEvent);
+
+
+async function postEvent(req, res) {
+
+    const { username, eventname, eventdescription, eventdate } = req.body;
+
+    const newEvent = new EventModel({
+        username: username,
+        eventname: eventname,
+        description: eventdescription,
+        date: eventdate,
+    });
+
+    await newEvent.save();
+    res.json({ message: 'Event Created' });
+}
+
+router.route('/getevents')
+    .post(getEvents);
+
+async function getEvents(req, res) {
+    const { name } = req.body;
+    try {
+        const events = await EventModel.find({ username: name }).sort({ date: -1 });
+        res.json(events);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error fetching events from MongoDB');
+    }
+}
+
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}/login`);
+    console.log(`Example app listening at http://localhost:${port}`);
 });

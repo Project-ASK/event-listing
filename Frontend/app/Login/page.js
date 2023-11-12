@@ -20,6 +20,7 @@ export default function Login() {
     const data = await response.json();
     if (response.ok) {
       localStorage.setItem('username', data.name);
+      localStorage.setItem('user',data.username);
       router.push("/Home");
     } else {
       window.alert('Error in login!');

@@ -1,21 +1,45 @@
 'use client'
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import '../styles/global.css';
 
 const handleLogout = async () => {
   window.location.replace('Login');
 }
 
-const createEvent = async () => {
-  router.push('CreateEvent');
-}
-
 const Page = () => {
   const [username, setUsername] = useState('');
+  const [events, setEvents] = useState([]);
+  const name = typeof window === 'undefined' ? '' : localStorage.getItem('user');
 
   useEffect(() => {
-    setUsername(localStorage.getItem('username'));
+    if (typeof window !== 'undefined') {
+      setUsername(localStorage.getItem('username'));
+    }
+    fetchEvents();
   }, []);
+
+  const router = useRouter();
+
+  const createEvent = async () => {
+    router.push('CreateEvent');
+  }
+
+  const fetchEvents = async () => {
+    const response = await fetch('http://localhost:3001/getevents', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+    const data = await response.json();
+    if (response.ok) {
+      // Sort events by date in descending order
+      const sortedEvents = data.sort((a, b) => new Date(b.eventdate) - new Date(a.eventdate));
+      setEvents(sortedEvents);
+    } else {
+      window.alert('Error in fetching events!');
+    }
+  };
 
   return (
     <>
@@ -26,9 +50,24 @@ const Page = () => {
           Log Out
         </button>
       </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: 'calc(100vh - 115px)' }}>
-        <h3>No Events to show</h3>
-        <button onClick={createEvent}>+ Create New Event</button>
+        {events.length > 0 ? (
+          events.map(event => {
+            const eventdate = new Date(event.date);
+            return (
+              <div key={event._id} style={{ backgroundColor: 'white', margin: '10px', padding: '7px', borderRadius: '15px', width: '40%', boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}>
+                <span style={{ fontWeight: "bold" }}>Event Name: </span><span>{event.eventname}</span>
+                <br /><br />
+                <span style={{ fontWeight: "bold" }}>Event Description: </span><span>{event.description}</span>
+                <p style={{ color: 'grey', textAlign: 'right', fontSize: "0.8em" }}>{eventdate.toLocaleString()}</p>
+              </div>
+            );
+          })
+        ) : (
+          <h3>No Events to show</h3>
+        )}
+        <button onClick={createEvent} style={{ padding: "0.5em", borderRadius: "0.6em", cursor: "pointer",marginTop:"0.6em" }}>+ Create New Event</button>
       </div>
     </>
   );
