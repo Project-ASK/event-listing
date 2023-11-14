@@ -2,6 +2,8 @@
 # Event Listing: [StackUp]
 
 
+![Project Logo](https://github.com/Project-ASK/event-listing/blob/main/resources/img.png)
+
 Welcome to our Event Listing Application, a dynamic platform built with Next.js and Express.js that enables users to effortlessly create, manage, and discover events. Offering a seamless user experience, our application features robust user authentication, allowing individuals to securely log in or sign up with personalized dashboards for managing events and settings. Leveraging Next.js for the frontend and Express.js for the backend, our technology stack ensures scalability and efficiency. Each event, enriched with details like name, date, and description, can be easily created, edited, or removed. Security is paramount, encompassing user authentication safeguards and compliance with data protection regulations. 
 
 <!-- Hosted on Vercel, our application prioritizes user support through specified channels and offers a comprehensive knowledge base for assistance. With an eye on the future, we continue to enhance features and ensure scalability for growing user interactions. Join us in this journey of creating and discovering memorable events in a user-centric, secure, and enjoyable environment. -->
