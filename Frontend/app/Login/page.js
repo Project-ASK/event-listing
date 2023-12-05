@@ -12,14 +12,15 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch('http://localhost:3001/login', {
+    const response = await fetch('https://rattler-major-severely.ngrok-free.app/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
     const data = await response.json();
     if (response.ok && data.message === "Data Found") {
-      router.push(`/Home?username=${encodeURIComponent(username)}&name=${encodeURIComponent(data.name)}`);
+      // router.push(`/Home?username=${encodeURIComponent(username)}&name=${encodeURIComponent(data.name)}`);
+      router.push('/Home', undefined, { shallow: true, state: { data: 'Hello World!' } });
     } else {
       window.alert('Error in login!');
     }

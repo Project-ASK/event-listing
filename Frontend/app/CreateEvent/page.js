@@ -25,7 +25,7 @@ const Page = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await fetch('http://localhost:3001/createevent', {
+        const response = await fetch('https://rattler-major-severely.ngrok-free.app/createevent', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, eventname, eventdescription, eventdate })
@@ -33,7 +33,7 @@ const Page = () => {
         const data = await response.json();
         if (response.ok) {
             window.alert('Event Created!');
-            const response = await fetch('http://localhost:3001/home', {
+            const response = await fetch('https://rattler-major-severely.ngrok-free.app/home', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username })

@@ -24,7 +24,7 @@ const Page = () => {
   }
 
   const fetchEvents = async () => {
-    const response = await fetch('http://localhost:3001/getevents', {
+    const response = await fetch('https://rattler-major-severely.ngrok-free.app/getevents', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username })
