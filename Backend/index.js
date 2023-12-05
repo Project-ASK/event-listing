@@ -6,7 +6,13 @@ const dotenv = require('dotenv');
 const port = 3001;
 const cors = require('cors');
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+    origin: 'https://event-listing-ten.vercel.app', // specify the domain of your frontend
+    methods: ['GET', 'POST'], // specify the methods allowed
+    allowedHeaders: ['Content-Type'], // specify the headers allowed
+}));
+
 
 
 app.use(express.json());
@@ -149,15 +155,6 @@ async function getHome(req, res) {
         res.json({ name: user.name, username: user.username, message: 'Data Found' });
     }
 };
-
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
-
-app.options('*', cors());
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
