@@ -1,6 +1,5 @@
-//Using MONGO_CONNECT from .env file due to some network and connection issues. DB_CONNECT can also be used.
-
 const express = require('express');
+const fs = require('fs');
 const mongoose = require('mongoose');
 const app = express();
 const dotenv = require('dotenv');
@@ -35,8 +34,19 @@ const UserModel = mongoose.model('auth', userSchema);
 const router = express.Router();
 app.use('/', router);
 
+router.route('/')
+    .get(getStart);
+
+async function getStart(req, res) {
+    fs.readFile('./index.html', (err, html) => {
+        res.writeHeader(200, { 'Content-Type': 'text/html' });
+        res.write(html);
+        res.end();
+    });
+}
+
 router.route('/login')
-    .post(postLogin);
+    .post(postLogin)
 
 router.route('/signup')
     .post(postSign);
@@ -47,7 +57,7 @@ async function postLogin(req, res) {
     if (!user) {
         res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
     } else {
-        res.json({ message: 'Login Success', name: user.name, username: user.username });
+        res.json({ name: user.name, username: user.username, message: 'Data Found' });
     }
 };
 
@@ -68,6 +78,21 @@ async function postSign(req, res) {
         res.status(500).send('Error adding user to MongoDB');
     }
 };
+
+router.route('/user')
+    .post(getUser);
+
+async function getUser(req, res) {
+    const { username } = req.body;
+    const user = await UserModel.findOne({ username });
+    if (!user) {
+        res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
+    }
+    else {
+        res.json({ name: user.name, message: 'Success' });
+    }
+}
+
 
 const eventSchema = new mongoose.Schema({
     username: String,
@@ -101,9 +126,9 @@ router.route('/getevents')
     .post(getEvents);
 
 async function getEvents(req, res) {
-    const { name } = req.body;
+    const { username } = req.body;
     try {
-        const events = await EventModel.find({ username: name }).sort({ date: -1 });
+        const events = await EventModel.find({ username }).sort({ date: -1 });
         res.json(events);
     } catch (error) {
         console.error(error);
@@ -111,8 +136,19 @@ async function getEvents(req, res) {
     }
 }
 
+router.route('/home')
+    .post(getHome);
+
+async function getHome(req, res) {
+    const { username } = req.body;
+    const user = await UserModel.findOne({ username });
+    if (!user) {
+        res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
+    } else {
+        res.json({ name: user.name, username: user.username, message: 'Data Found' });
+    }
+};
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
-
-module.exports = app

@@ -1,6 +1,7 @@
 'use client'
 import { useState , useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import '../styles/global.css'
 
 const Page = () => {
@@ -9,7 +10,8 @@ const Page = () => {
     const [eventdescription, setEventdescription] = useState('');
     const [eventdate, setEventdate] = useState('');
     const [minDate, setMinDate] = useState('');
-    const username = localStorage.getItem('user');
+    const searchParams = useSearchParams()
+    const username = searchParams.get('username')
     const router = useRouter();
 
     useEffect(() => {
@@ -31,8 +33,13 @@ const Page = () => {
         const data = await response.json();
         if (response.ok) {
             window.alert('Event Created!');
-            localStorage.setItem('eventname', data.eventname);
-            router.push('/Home');
+            const response = await fetch('http://localhost:3001/home', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username })
+            });
+            const data = await response.json();
+            router.push(`/Home?username=${encodeURIComponent(username)}&name=${encodeURIComponent(data.name)}`);
             return;
         }
         if (response.status === 401) {

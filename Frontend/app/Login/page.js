@@ -18,17 +18,14 @@ export default function Login() {
       body: JSON.stringify({ username, password })
     });
     const data = await response.json();
-    if (response.ok) {
-      localStorage.setItem('username', data.name);
-      localStorage.setItem('user',data.username);
-      router.push("/Home");
+    if (response.ok && data.message === "Data Found") {
+      router.push(`/Home?username=${encodeURIComponent(username)}&name=${encodeURIComponent(data.name)}`);
     } else {
       window.alert('Error in login!');
     }
   };
 
   return (
-    <>
       <div className="login">
         <div style={{ display: "flex", justifyContent: "center", marginTop: "3%" }}>
           <h1 style={{ fontSize: "3em" }}>Event<span style={{ color: "red" }}> Lister</span></h1>
@@ -51,6 +48,5 @@ export default function Login() {
           </div>
         </nav>
       </div>
-    </>
   );
 }

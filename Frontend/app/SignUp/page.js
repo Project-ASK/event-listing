@@ -18,11 +18,9 @@ export default function SignUp() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, username, password })
         });
-        const data = await response.json();
+        await response.json();
         if (response.ok) {
             window.alert('Sign Up Success!');
-            localStorage.setItem('username', data.name);
-            localStorage.setItem('user', data.username);
             router.push('/Login');
         } else if (response.status === 401) {
             window.alert('User already exists');

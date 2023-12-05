@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation'
 import '../styles/global.css';
 
 const handleLogout = async () => {
@@ -8,28 +9,25 @@ const handleLogout = async () => {
 }
 
 const Page = () => {
-  const [username, setUsername] = useState('');
+  const router = useRouter();
+  const searchParams = useSearchParams()
+  const username =  searchParams.get('username')
+  const name = searchParams.get('name')
   const [events, setEvents] = useState([]);
-  const name = typeof window === 'undefined' ? '' : localStorage.getItem('user');
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setUsername(localStorage.getItem('username'));
-    }
     fetchEvents();
   }, []);
 
-  const router = useRouter();
-
   const createEvent = async () => {
-    router.push('CreateEvent');
+    router.push(`/CreateEvent?username=${encodeURIComponent(username)}`);
   }
 
   const fetchEvents = async () => {
     const response = await fetch('http://localhost:3001/getevents', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name })
+      body: JSON.stringify({ username })
     });
     const data = await response.json();
     if (response.ok) {
@@ -45,7 +43,7 @@ const Page = () => {
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
         <h2 style={{ color: 'black', margin: '2px' }}>Event <span style={{ color: "red" }}>Lister</span></h2>
-        <h3 style={{ color: 'black', margin: '2px' }}>Welcome, {username}!</h3>
+        <h3 style={{ color: 'black', margin: '2px' }}>Welcome, {name}!</h3>
         <button style={{ backgroundColor: 'rgb(249, 49, 49)', color: 'white', padding: '7px 25px', textAlign: 'center', textDecoration: 'none', display: 'inline-block', fontSize: '16px', marginRight: '2px', cursor: 'pointer', borderRadius: "20px" }} onClick={handleLogout}>
           Log Out
         </button>
