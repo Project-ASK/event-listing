@@ -9,12 +9,10 @@ const cors = require('cors');
 // app.use(cors());
 app.use(cors({
     origin: 'https://event-listing-ten.vercel.app', // specify the domain of your frontend
-    methods: ['GET', 'POST'], // specify the methods allowed
+    methods: ['GET', 'POST','PATCH','PUT','DELETE'], // specify the methods allowed
     allowedHeaders: ['Content-Type'], // specify the headers allowed
 }));
-
-
-
+app.options('*', cors());
 app.use(express.json());
 app.use(express.static('public'));
 dotenv.config();
