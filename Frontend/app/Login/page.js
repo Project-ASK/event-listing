@@ -19,8 +19,7 @@ export default function Login() {
     });
     const data = await response.json();
     if (response.ok && data.message === "Data Found") {
-      // router.push(`/Home?username=${encodeURIComponent(username)}&name=${encodeURIComponent(data.name)}`);
-      router.push('/Home', undefined, { shallow: true, state: { data: 'Hello World!' } });
+      router.push(`/Home?username=${encodeURIComponent(username)}&name=${encodeURIComponent(data.name)}`);
     } else {
       window.alert('Error in login!');
     }
