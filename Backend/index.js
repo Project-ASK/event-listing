@@ -7,14 +7,13 @@ const port = 3001;
 const cors = require('cors');
 
 // app.use(cors());
-app.use(cors({
-    origin: 'https://event-listing-ten.vercel.app', // specify the domain of your frontend
-    methods: ['GET', 'POST','PATCH','PUT','DELETE'], // specify the methods allowed
-    allowedHeaders: ['Content-Type'], // specify the headers allowed
-    credentials: true // specify if cookies are allowed 
-    
-}));
-app.options('*', cors());
+const corsOptions = {
+    origin: '*',
+    credentials: true,            //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+}
+
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use(express.static('public'));
 dotenv.config();
