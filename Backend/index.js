@@ -5,16 +5,8 @@ const app = express();
 const dotenv = require('dotenv');
 const port = 3001;
 const cors = require('cors');
-const corsOptions = {
-    origin: 'https://event-listing-ten.vercel.app',
-    credentials: true,
-    optionsSuccessStatus: 200,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}
 
-app.use(cors(corsOptions))
-app.options('*', cors());
+app.use(cors())
 app.use(express.json());
 app.use(express.static('public'));
 dotenv.config();
@@ -54,6 +46,7 @@ async function getStart(req, res) {
 
 router.route('/login')
     .post(postLogin)
+    .get(getLogin);
 
 router.route('/signup')
     .post(postSign);
@@ -67,6 +60,10 @@ async function postLogin(req, res) {
         res.json({ name: user.name, username: user.username, message: 'Data Found' });
     }
 };
+
+async function getLogin(req, res) {
+    res.json({ message: 'Login Page' });
+}
 
 async function postSign(req, res) {
     try {
