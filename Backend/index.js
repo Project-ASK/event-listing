@@ -57,12 +57,14 @@ async function postLogin(req, res) {
     if (!user) {
         res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
     } else {
-        res.json({ name: user.name, username: user.username, message: 'Data Found' });
+        res.status(200).json({ name: user.name, username: user.username, message: 'Data Found' });
     }
+    res.end();
 };
 
 async function getLogin(req, res) {
-    res.json({ message: 'Login Page' });
+    res.status(200).json({ message: 'Login Page' });
+    res.end();
 }
 
 async function postSign(req, res) {
@@ -81,6 +83,7 @@ async function postSign(req, res) {
         console.error(error);
         res.status(500).send('Error adding user to MongoDB');
     }
+    res.end();
 };
 
 router.route('/user')
@@ -93,8 +96,9 @@ async function getUser(req, res) {
         res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
     }
     else {
-        res.json({ name: user.name, message: 'Success' });
+        res.status(200).json({ name: user.name, message: 'Success' });
     }
+    res.end();
 }
 
 
@@ -123,7 +127,7 @@ async function postEvent(req, res) {
     });
 
     await newEvent.save();
-    res.json({ message: 'Event Created' });
+    res.status(200).json({ message: 'Event Created' });
 }
 
 router.route('/getevents')
@@ -133,11 +137,12 @@ async function getEvents(req, res) {
     const { username } = req.body;
     try {
         const events = await EventModel.find({ username }).sort({ date: -1 });
-        res.json(events);
+        res.status(200).json(events);
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching events from MongoDB');
     }
+    res.end();
 }
 
 router.route('/home')
@@ -149,8 +154,9 @@ async function getHome(req, res) {
     if (!user) {
         res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
     } else {
-        res.json({ name: user.name, username: user.username, message: 'Data Found' });
+        res.status(200).json({ name: user.name, username: user.username, message: 'Data Found' });
     }
+    res.end();
 };
 
 app.listen(port, () => {
