@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 const port = 3001;
 const cors = require('cors');
 const corsOptions = {
-    origin: 'https://event-listing-ten.vercel.app',
+    origin: '*',
     credentials: true,
     optionsSuccessStatus: 200,
     allowedHeaders: ['Content-Type', 'Authorization'],
