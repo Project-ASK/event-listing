@@ -15,7 +15,7 @@ module.exports = {
                     },
                     {
                         key: "Access-Control-Allow-Origin",
-                        value: "https://rattler-major-severely.ngrok-free.app"
+                        value: "*"
                     },
                     {
                         key: "Access-Control-Allow-Methods",
