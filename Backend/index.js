@@ -4,16 +4,16 @@ const mongoose = require('mongoose');
 const app = express();
 const dotenv = require('dotenv');
 const port = 3001;
-const cors = require('cors');
+// const cors = require('cors');
 
 // app.use(cors());
-const corsOptions = {
-    origin: '*',
-    credentials: true,            //access-control-allow-credentials:true
-    optionSuccessStatus: 200,
-}
+// const corsOptions = {
+//     origin: '*',
+//     credentials: true,            //access-control-allow-credentials:true
+//     optionSuccessStatus: 200,
+// }
 
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
 app.use(express.json());
 app.use(express.static('public'));
 dotenv.config();
