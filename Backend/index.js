@@ -11,6 +11,8 @@ app.use(cors({
     origin: 'https://event-listing-ten.vercel.app', // specify the domain of your frontend
     methods: ['GET', 'POST','PATCH','PUT','DELETE'], // specify the methods allowed
     allowedHeaders: ['Content-Type'], // specify the headers allowed
+    credentials: true // specify if cookies are allowed 
+    
 }));
 app.options('*', cors());
 app.use(express.json());
