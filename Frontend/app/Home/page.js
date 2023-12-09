@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation'
 import '../styles/global.css';
 
 const handleLogout = async () => {
@@ -9,8 +10,9 @@ const handleLogout = async () => {
 
 const Page = () => {
   const router = useRouter();
-  const username = decodeURIComponent(document.cookie.split('; ').find(c => c.startsWith('username='))?.split('=')[1]);
-  const name = decodeURIComponent(document.cookie.split('; ').find(c => c.startsWith('name='))?.split('=')[1]);
+  const searchParams = useSearchParams()
+  const username = searchParams.get('username')
+  const name = searchParams.get('name')
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ const Page = () => {
   }, []);
 
   const createEvent = async () => {
-    router.push(`/CreateEvent`);
+    router.push(`/CreateEvent?username=${encodeURIComponent(username)}`);
   }
 
   const fetchEvents = async () => {
@@ -63,7 +65,7 @@ const Page = () => {
         ) : (
           <h3>No Events to show</h3>
         )}
-        <button onClick={createEvent} style={{ padding: "0.5em", borderRadius: "0.6em", cursor: "pointer",marginTop:"0.6em" }}>+ Create New Event</button>
+        <button onClick={createEvent} style={{ padding: "0.5em", borderRadius: "0.6em", cursor: "pointer", marginTop: "0.6em" }}>+ Create New Event</button>
       </div>
     </>
   );

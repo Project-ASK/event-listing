@@ -10,7 +10,8 @@ const Page = () => {
     const [eventdescription, setEventdescription] = useState('');
     const [eventdate, setEventdate] = useState('');
     const [minDate, setMinDate] = useState('');
-    const username = decodeURIComponent(document.cookie.split('; ').find(c => c.startsWith('username='))?.split('=')[1]);
+    const searchParams = useSearchParams()
+    const username = searchParams.get('username')
     const router = useRouter();
 
     useEffect(() => {
@@ -38,7 +39,7 @@ const Page = () => {
                 body: JSON.stringify({ username })
             });
             const data = await response.json();
-            router.push(`/Home`);
+            router.push(`/Home?username=${encodeURIComponent(username)}&name=${encodeURIComponent(data.name)}`);
             return;
         }
         if (response.status === 401) {
