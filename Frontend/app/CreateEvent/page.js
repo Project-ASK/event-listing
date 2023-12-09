@@ -1,5 +1,5 @@
 'use client'
-import { useState , useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import '../styles/global.css'
@@ -10,8 +10,7 @@ const Page = () => {
     const [eventdescription, setEventdescription] = useState('');
     const [eventdate, setEventdate] = useState('');
     const [minDate, setMinDate] = useState('');
-    const searchParams = useSearchParams()
-    const username = searchParams.get('username')
+    const username = decodeURIComponent(document.cookie.split('; ').find(c => c.startsWith('username='))?.split('=')[1]);
     const router = useRouter();
 
     useEffect(() => {
@@ -39,7 +38,7 @@ const Page = () => {
                 body: JSON.stringify({ username })
             });
             const data = await response.json();
-            router.push(`/Home?username=${encodeURIComponent(username)}&name=${encodeURIComponent(data.name)}`);
+            router.push(`/Home`);
             return;
         }
         if (response.status === 401) {

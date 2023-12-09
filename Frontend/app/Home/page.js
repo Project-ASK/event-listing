@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation'
 import '../styles/global.css';
 
 const handleLogout = async () => {
@@ -10,9 +9,8 @@ const handleLogout = async () => {
 
 const Page = () => {
   const router = useRouter();
-  const searchParams = useSearchParams()
-  const username =  searchParams.get('username')
-  const name = searchParams.get('name')
+  const username = decodeURIComponent(document.cookie.split('; ').find(c => c.startsWith('username='))?.split('=')[1]);
+  const name = decodeURIComponent(document.cookie.split('; ').find(c => c.startsWith('name='))?.split('=')[1]);
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -20,7 +18,7 @@ const Page = () => {
   }, []);
 
   const createEvent = async () => {
-    router.push(`/CreateEvent?username=${encodeURIComponent(username)}`);
+    router.push(`/CreateEvent`);
   }
 
   const fetchEvents = async () => {
