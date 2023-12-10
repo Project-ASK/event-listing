@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import '../styles/global.css';
 
 const handleLogout = async () => {
-  window.location.replace('Login');
+  router.replace('Login');
 }
 
 const Page = () => {
