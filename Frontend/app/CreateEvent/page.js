@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
+import Cookies from 'js-cookie';
 import '../styles/global.css'
 
 const Page = () => {
@@ -10,8 +11,8 @@ const Page = () => {
     const [eventdescription, setEventdescription] = useState('');
     const [eventdate, setEventdate] = useState('');
     const [minDate, setMinDate] = useState('');
-    const searchParams = useSearchParams()
-    const username = searchParams.get('username')
+    // const searchParams = useSearchParams()
+    const username = Cookies.get('username');
     const router = useRouter();
 
     useEffect(() => {
@@ -25,7 +26,7 @@ const Page = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await fetch('https://rattler-major-severely.ngrok-free.app/createevent', {
+        const response = await fetch('http://localhost:3001/createevent', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, eventname, eventdescription, eventdate })
@@ -33,13 +34,13 @@ const Page = () => {
         const data = await response.json();
         if (response.ok) {
             window.alert('Event Created!');
-            const response = await fetch('https://rattler-major-severely.ngrok-free.app/home', {
+            const response = await fetch('http://localhost:3001/home', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username })
             });
             const data = await response.json();
-            router.push(`/Home?username=${encodeURIComponent(username)}&name=${encodeURIComponent(data.name)}`);
+            router.push('/Home');
             return;
         }
         if (response.status === 401) {
