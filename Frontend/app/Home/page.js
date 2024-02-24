@@ -1,18 +1,21 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 import { useSearchParams } from 'next/navigation'
 import '../styles/global.css';
 
 const handleLogout = async () => {
+  Cookies.remove('token');
+  Cookies.remove('username');
   window.location.replace('Login');
 }
 
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams()
-  const username = searchParams.get('username')
-  const name = searchParams.get('name')
+  const username = Cookies.get('username');
+  const name = Cookies.get('name');
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -24,7 +27,7 @@ const Page = () => {
   }
 
   const fetchEvents = async () => {
-    const response = await fetch('https://rattler-major-severely.ngrok-free.app/getevents', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getevents`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username })

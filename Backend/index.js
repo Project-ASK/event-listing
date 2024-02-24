@@ -2,19 +2,22 @@ const express = require('express');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const app = express();
+const bodyParser = require('body-parser')
+// const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv');
 const port = 3001;
 const cors = require('cors');
 
+const SECRET_KEY = 'super-secret-key'
+
 app.use(cors())
-app.use(express.json());
-app.use(express.static('public'));
+// app.use(express.json());
+app.use(bodyParser.json())
+// app.use(express.static('public'));
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_CONNECT, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+mongoose.connect(process.env.MONGO_CONNECT);
 const db = mongoose.connection;
 
 db.on('error', (error) => console.error(error));
@@ -57,7 +60,9 @@ async function postLogin(req, res) {
     if (!user) {
         res.status(401).json({ message: 'Invalid Credentials,Please Sign Up first' });
     } else {
-        res.status(200).json({ name: user.name, username: user.username, message: 'Data Found' });
+        // res.status(200).json({ name: user.name, username: user.username, message: 'Data Found' });
+        const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: '1hr' })
+        res.json({ message: 'Login successful', token: token, name: user.name })
     }
     res.end();
 };
