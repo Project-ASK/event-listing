@@ -13,13 +13,13 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch('http://localhost:3001/login', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
     const data = await response.json();
-    if (response.ok && data.message === "Login successful") {
+    if (response.ok) {
       router.replace('/Home');
       Cookies.set('token', data.token);
       Cookies.set('username', username);

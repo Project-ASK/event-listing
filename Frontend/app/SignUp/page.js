@@ -13,7 +13,7 @@ export default function SignUp() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await fetch('https://rattler-major-severely.ngrok-free.app/signup', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, username, password })

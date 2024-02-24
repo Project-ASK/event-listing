@@ -26,7 +26,7 @@ const Page = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await fetch('http://localhost:3001/createevent', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/createevent`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, eventname, eventdescription, eventdate })
@@ -34,7 +34,7 @@ const Page = () => {
         const data = await response.json();
         if (response.ok) {
             window.alert('Event Created!');
-            const response = await fetch('http://localhost:3001/home', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/home`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username })

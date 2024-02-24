@@ -27,7 +27,7 @@ const Page = () => {
   }
 
   const fetchEvents = async () => {
-    const response = await fetch('http://localhost:3001/getevents', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getevents`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username })
